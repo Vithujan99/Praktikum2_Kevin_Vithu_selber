@@ -14,29 +14,29 @@
      <div class="card-body">
 
 
-      <form method="post">
+      <form method="post" action="#" th:action="@{/zins}" th:object="${zinsInfo}">
        <div class="form-group">
-        <label>Anfangskapital</label>
-        <input type="text" autocomplete="off" class="form-control"
-         value="5000">
-        <small class="text-danger">Muss positiv sein!</small>
+        <label for="kapital">Anfangskapital</label>  <!--@ for -->
+        <input id="kapital" name="kapital" type="text" autocomplete="off" class="form-control"
+               value="5000" th:field="*{kapital}">  <!--@ id & name & value changed to placeholder-->
+        <small class="text-danger" th:if="${#fields.hasErrors('kapital')}" th:errors="*{kapital}">Muss positiv sein!</small>
        </div>
        <div class="form-group">
-        <label>Laufzeit</label>
-        <input type="text" autocomplete="off"
-         class="form-control" value="3">
+        <label for="zeit">Laufzeit</label> <!--@ for -->
+        <input id="zeit" name="zeit" type="text" autocomplete="off"
+         class="form-control" placeholder="3"> <!--@ id $ name & value changed to placeholder -->
         <small class="text-danger">Muss größer als 0 sein</small>
        </div>
        <div class="form-group">
-        <label>Zinssatz (% p.a.)</label>
-        <input class="form-control" type="text" autocomplete="off"
-         value="0.5">
+        <label for="zinssatz">Zinssatz (% p.a.)</label> <!--@ for -->
+        <input id="zinssatz" name="zinssatz" class="form-control" type="text" autocomplete="off"
+         placeholder="0.5"> <!--@ id $ name & value changed to placeholder -->
         <small class="text-danger">Muss positiv sein!</small>
        </div>
        <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input"
-         checked="checked">
-        <label class="form-check-label">Tabelle anzeigen</label>
+        <input id="tabelle" name="tabelle" type="checkbox" class="form-check-input"
+         checked="checked"> <!--@ id $ name-->
+        <label for="tabelle" class="form-check-label">Tabelle anzeigen</label> <!--@ for -->
        </div>
        <button type="submit" class="btn btn-primary">Berechnen</button>
       </form>
@@ -51,10 +51,10 @@
      <div class="card-body">
       <h5 class="card-title">Ergebnis</h5>
       <p class="card-text">
-       Bei einer Laufzeit von <span>3</span>
-       Jahren bei einem konstanten Zinssatz von <span
+       Bei einer Laufzeit von <span th:text="${zinsInfo.zeit}">3</span> <!-- th:text eingefügt-->
+       Jahren bei einem konstanten Zinssatz von <span th:text="${zinsInfo.zinssatz}"
        >0,5</span> % p.a. und einem
-       Anfangskapital von <span>5000.00</span>
+       Anfangskapital von <span th:text="${zinsInfo.kapital}">5000.00</span>
        Euro, beträgt das Endkapital <span
        >5075.38</span> Euro.
       </p>
