@@ -16,7 +16,7 @@
      <div class="card-body">
 
 
-      <form method="post" action="#" th:action="@{/}" th:object="${zinsdaten}">
+      <form method="post" action="#" th:action="@{/zins}" th:object="${zinsdaten}">
        <div class="form-group">
         <label for="kapital">Anfangskapital</label>  <!--@ for -->
         <input id="kapital" name="kapital" type="text" autocomplete="off" class="form-control"
@@ -37,7 +37,7 @@
        </div>
        <div class="form-group form-check">
         <input id="tabelle" name="tabelle" type="checkbox" class="form-check-input"
-         checked="checked"> <!--@ id $ name-->
+         checked="checked" th:checked="${tabelleAnzeigen}"> <!--@ id $ name-->
         <label for="tabelle" class="form-check-label">Tabelle anzeigen</label> <!--@ for -->
        </div>
        <button type="submit" class="btn btn-primary">Berechnen</button>
@@ -58,9 +58,9 @@
        >0,5</span> % p.a. und einem
        Anfangskapital von <span th:text="${zinsdaten.kapital}">5000.00</span>
        Euro, beträgt das Endkapital <span
-       >5075.38</span> Euro.
+       th:text="${endKapital}">5075.38</span> Euro.
       </p>
-      <table class="table">
+      <table th:if="${tabelleAnzeigen}" class="table">
        <thead>
         <tr>
          <th>Jahr</th>
@@ -70,12 +70,12 @@
         </tr>
        </thead>
 
-       <tbody>
-        <tr>
-         <td>1</td>
-         <td>5000.00</td>
-         <td>25.00</td>
-         <td>5025.00</td>
+       <tbody th:remove="all-but-first">
+        <tr th:each="daten :${jahrKapitalTabelle}">
+         <td th:text="${daten.jahr}">1</td>
+         <td th:text="${daten.anfangsKapital}">5000.00</td>
+         <td th:text="${daten.zinsen}">25.00</td>
+         <td th:text="${daten.endKapital}">5025.00</td>
         </tr>
         <tr>
          <td>2</td>

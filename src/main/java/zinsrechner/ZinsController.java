@@ -7,24 +7,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ZinsController {
-   @GetMapping("/")
+   @GetMapping("/zins")
     public String index(Zinsdaten zinsdaten){
        return "zinsform";
    }
 
    @PostMapping("/zins")
-    public String berchnen(@Valid Zinsdaten zinsdaten, BindingResult bindingResult, boolean tabelle, Model m ){
+    public String berchnen(@Valid Zinsdaten zinsdaten, BindingResult bindingResult, boolean tabelle, Model m){
        if (bindingResult.hasErrors()){
          return "zinsform";
       }
-       m.addAttribute("zinsdaten", zinsdaten);
-       System.out.println(zinsdaten);
        System.out.println(tabelle);
+       ZinsBerechnung zinsBerechnung = new ZinsBerechnung(zinsdaten);
+       m.addAttribute("zinsdaten",zinsdaten);
+       List<JahrKapital> jahrKapitalTabelle = zinsBerechnung.berechnen();
+       m.addAttribute("jahrKapitalTabelle",jahrKapitalTabelle);
+       m.addAttribute("endKapital",jahrKapitalTabelle.get(zinsdaten.zeit()-1).endKapital());
+       m.addAttribute("tabelleAnzeigen",tabelle);
        return "zinsform";
    }
 }

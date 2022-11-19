@@ -1,6 +1,8 @@
 package zinsrechner;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public record Zinsdaten(
         @Min(value=1, message = "Muss Positiv sein")Double kapital,
