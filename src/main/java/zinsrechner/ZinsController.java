@@ -12,17 +12,17 @@ import javax.validation.Valid;
 
 @Controller
 public class ZinsController {
-   @RequestMapping("/zins")
-    public String anzeigen(){
+   @GetMapping("/")
+    public String index(Zinsdaten zinsdaten){
        return "zinsform";
    }
 
    @PostMapping("/zins")
-    public String berchnen(@Valid Zinsdaten zinsdaten, BindingResult bindingResult, boolean tabelle, Model m){
-      if (bindingResult.hasErrors()){
+    public String berchnen(@Valid Zinsdaten zinsdaten, BindingResult bindingResult, boolean tabelle, Model m ){
+       if (bindingResult.hasErrors()){
          return "zinsform";
       }
-       m.addAttribute("zinsInfo",zinsdaten);
+       m.addAttribute("zinsdaten", zinsdaten);
        System.out.println(zinsdaten);
        System.out.println(tabelle);
        return "zinsform";

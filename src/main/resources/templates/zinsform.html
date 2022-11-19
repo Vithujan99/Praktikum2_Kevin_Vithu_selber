@@ -1,7 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<title>Zinsen</title>
 </head>
 <body>
  <div class="container">
@@ -14,7 +16,7 @@
      <div class="card-body">
 
 
-      <form method="post" action="#" th:action="@{/zins}" th:object="${zinsInfo}">
+      <form method="post" action="#" th:action="@{/}" th:object="${zinsdaten}">
        <div class="form-group">
         <label for="kapital">Anfangskapital</label>  <!--@ for -->
         <input id="kapital" name="kapital" type="text" autocomplete="off" class="form-control"
@@ -24,14 +26,14 @@
        <div class="form-group">
         <label for="zeit">Laufzeit</label> <!--@ for -->
         <input id="zeit" name="zeit" type="text" autocomplete="off"
-         class="form-control" placeholder="3"> <!--@ id $ name & value changed to placeholder -->
-        <small class="text-danger">Muss größer als 0 sein</small>
+         class="form-control" value="3" th:field="*{zeit}">  <!--@ id $ name & value changed to placeholder -->
+        <small class="text-danger" th:if="${#fields.hasErrors('zeit')}" th:errors="*{zeit}">Muss größer als 0 sein</small>
        </div>
        <div class="form-group">
         <label for="zinssatz">Zinssatz (% p.a.)</label> <!--@ for -->
         <input id="zinssatz" name="zinssatz" class="form-control" type="text" autocomplete="off"
-         placeholder="0.5"> <!--@ id $ name & value changed to placeholder -->
-        <small class="text-danger">Muss positiv sein!</small>
+         value="0.5" th:field="*{zinssatz}"> <!--@ id $ name & value changed to placeholder -->
+        <small class="text-danger" th:if="${#fields.hasErrors('zinssatz')}" th:errors="*{zinssatz}">Muss positiv sein!</small>
        </div>
        <div class="form-group form-check">
         <input id="tabelle" name="tabelle" type="checkbox" class="form-check-input"
@@ -46,15 +48,15 @@
 
 
 
-   <div class="col-sm">
+  <div class="col-sm">
     <div class="card">
      <div class="card-body">
       <h5 class="card-title">Ergebnis</h5>
       <p class="card-text">
-       Bei einer Laufzeit von <span th:text="${zinsInfo.zeit}">3</span> <!-- th:text eingefügt-->
-       Jahren bei einem konstanten Zinssatz von <span th:text="${zinsInfo.zinssatz}"
+       Bei einer Laufzeit von <span th:text="${zinsdaten.zeit}">3</span>
+       Jahren bei einem konstanten Zinssatz von <span th:text="${zinsdaten.zinssatz}"
        >0,5</span> % p.a. und einem
-       Anfangskapital von <span th:text="${zinsInfo.kapital}">5000.00</span>
+       Anfangskapital von <span th:text="${zinsdaten.kapital}">5000.00</span>
        Euro, beträgt das Endkapital <span
        >5075.38</span> Euro.
       </p>
